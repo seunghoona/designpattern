@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>designintroduce.FlyBehavior</OriginalElement>
+  <nodes>
+    <node x="0.0" y="247.0">designintroduce.DecoyDuck</node>
+    <node x="0.0" y="503.0">designintroduce.Quack</node>
+    <node x="306.0" y="247.0">designintroduce.MallardDuck</node>
+    <node x="447.0" y="503.0">designintroduce.FlyWithWings</node>
+    <node x="123.5" y="396.0">designintroduce.QuackBehavior</node>
+    <node x="287.0" y="503.0">designintroduce.Squack</node>
+    <node x="191.5" y="0.0">designintroduce.Duck</node>
+    <node x="149.0" y="247.0">designintroduce.ModelsDuck</node>
+    <node x="0.0" y="629.0">designintroduce.ApplicationMain</node>
+    <node x="135.0" y="503.0">designintroduce.MuteQuack</node>
+    <node x="465.0" y="247.0">designintroduce.RedhadDuck</node>
+    <node x="530.25" y="396.0">designintroduce.FlyBehavior</node>
+    <node x="611.0" y="503.0">designintroduce.FlyNoWay</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="designintroduce.FlyNoWay" target="designintroduce.FlyBehavior" relationship="REALIZATION">
+      <point x="0.0" y="-40.5" />
+      <point x="670.5" y="478.0" />
+      <point x="594.75" y="478.0" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="designintroduce.FlyWithWings" target="designintroduce.FlyBehavior" relationship="REALIZATION">
+      <point x="0.0" y="-40.5" />
+      <point x="519.0" y="478.0" />
+      <point x="594.75" y="478.0" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="designintroduce.RedhadDuck" target="designintroduce.Duck" relationship="GENERALIZATION">
+      <point x="0.0" y="-52.0" />
+      <point x="534.5" y="222.0" />
+      <point x="296.5" y="222.0" />
+      <point x="0.0" y="98.5" />
+    </edge>
+    <edge source="designintroduce.MuteQuack" target="designintroduce.QuackBehavior" relationship="REALIZATION">
+      <point x="0.0" y="-40.5" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="designintroduce.ModelsDuck" target="designintroduce.Duck" relationship="GENERALIZATION">
+      <point x="0.0" y="-52.0" />
+      <point x="217.5" y="222.0" />
+      <point x="296.5" y="222.0" />
+      <point x="0.0" y="98.5" />
+    </edge>
+    <edge source="designintroduce.MallardDuck" target="designintroduce.Duck" relationship="GENERALIZATION">
+      <point x="0.0" y="-52.0" />
+      <point x="375.5" y="222.0" />
+      <point x="296.5" y="222.0" />
+      <point x="0.0" y="98.5" />
+    </edge>
+    <edge source="designintroduce.Squack" target="designintroduce.QuackBehavior" relationship="REALIZATION">
+      <point x="0.0" y="-40.5" />
+      <point x="344.5" y="478.0" />
+      <point x="201.0" y="478.0" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="designintroduce.Quack" target="designintroduce.QuackBehavior" relationship="REALIZATION">
+      <point x="0.0" y="-40.5" />
+      <point x="57.5" y="478.0" />
+      <point x="201.0" y="478.0" />
+      <point x="0.0" y="28.5" />
+    </edge>
+    <edge source="designintroduce.DecoyDuck" target="designintroduce.Duck" relationship="GENERALIZATION">
+      <point x="0.0" y="-52.0" />
+      <point x="64.5" y="222.0" />
+      <point x="296.5" y="222.0" />
+      <point x="0.0" y="98.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="365.0" y="355.0" />
+  <SelectedNodes>
+    <node>designintroduce.ApplicationMain</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
