@@ -1,23 +1,27 @@
 package observer;
 
+import java.util.Observable;
+import java.util.Observer;
+
 public class CureentConditionDisplay implements Observer, DisplayElement {
 
+    private final Observable observable;
     private float temperature;
     private float humidity;
-    private float pressure;
-    private final Subject weatherData;
 
-    public CureentConditionDisplay(Subject weatherData) {
-        this.weatherData = weatherData;
-        this.weatherData.registerObserver(this);
+    public CureentConditionDisplay(Observable observable) {
+        this.observable = observable;
+        this.observable.addObserver(this);
     }
 
     @Override
-    public void update(float temp, float humidity, float pressure) {
-        this.temperature = temperature;
-        this.humidity = humidity;
-        this.pressure = pressure;
-        display();
+    public void update(Observable obs, Object arg) {
+        if (obs instanceof WeatherData) {
+            WeatherData weatherData = (WeatherData) obs;
+            this.temperature = weatherData.getTemperature();
+            this.humidity = weatherData.getHumidity();
+            display();
+        }
     }
 
     @Override
@@ -28,9 +32,9 @@ public class CureentConditionDisplay implements Observer, DisplayElement {
     @Override
     public String toString() {
         return "CureentConditionDisplay{" +
-                "temperature=" + temperature +
+                "observable=" + observable +
+                ", temperature=" + temperature +
                 ", humidity=" + humidity +
-                ", pressure=" + pressure +
                 '}';
     }
 }
