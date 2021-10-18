@@ -1,19 +1,20 @@
 package decorator;
 
-public class Espresso extends Beverage{
+public class Soy extends Beverage{
 
-    public Espresso(Size size) {
+    public Soy(Size size) {
         super.description = "에스프레소";
         super.size = size;
     }
-    public Espresso() {
+
+    public Soy() {
         super.description = "에스프레소";
     }
 
     @Override
     public double cost() {
+        double sizeCost = Size.findSizeCost(size);
 
-
-        return 1.99;
+        return 3.4 + sizeCost;
     }
 }

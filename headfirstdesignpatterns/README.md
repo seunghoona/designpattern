@@ -196,3 +196,10 @@ public class WeatherData {
 + FileInputStream , StringBufferInputStream, ByteArrayInputStream은 데코레이터로 포장 될 구상 구성요소 역할을 합니다.
 + FilterInputStream은 추상 데코레이터입니다.
 + PushbackInputStream BuffedInputStream DataInputStream 등이 데코레이터들입니다.
+
+
+### 실습해봅시다
++ 사이즈 개념을 도입하기로 했습니다.
++ 커피를 이제는 톨, 그란데 벤티 중에서 골라서 주문할 수 있ㅅ브니다.
++ Beverage 클래스에 사이즈의 get/set을 추가했습니다.
++ 사이즈에 따라서 가격도 다르게 받을 계획입니다.

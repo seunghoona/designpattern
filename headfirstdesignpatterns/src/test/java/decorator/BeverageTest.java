@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import static decorator.Beverage.Size.*;
+
 class BeverageTest {
 
     @Test
@@ -37,5 +39,16 @@ class BeverageTest {
         }
         String s = Arrays.toString(outByte).replaceAll("[^a-z]","");
         Assertions.assertEquals("abcdefg",s);
+    }
+
+    @Test
+    @DisplayName("size가 추가된다면?")
+    void sizeTest() {
+
+        Beverage beverage = new Mocha(new Soy());
+        Assertions.assertEquals("에스프레소모카5.0",beverage.getDescription() + beverage.cost());
+
+        Beverage ventiBeverage = new Mocha(new Soy(VENTI));
+        Assertions.assertEquals("에스프레소모카7.0",ventiBeverage.getDescription() + ventiBeverage.cost());
     }
 }
