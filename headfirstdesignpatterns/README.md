@@ -189,3 +189,10 @@ public class WeatherData {
 + 데코레이터는 자신이 감싸고 있는 객체와 같은 수퍼 클래스를 가지고 있기 때문에 원래 객체가 들어갈 자리에   
 데코레이터 객체를 집어 넣어도 상관없습니다. 
 > __데코레이터는 자신이 장식하고 있는 객체에게 어떤 행동을 위힘하는 것 외에 원하는 추가적인 작업을 수행할 수 있습니다.__
+
+
+### 자바 API 데코레이터 패턴을 확인해보자
++ InputStream 데코레이턴의 수퍼클래스가됩니다.
++ FileInputStream , StringBufferInputStream, ByteArrayInputStream은 데코레이터로 포장 될 구상 구성요소 역할을 합니다.
++ FilterInputStream은 추상 데코레이터입니다.
++ PushbackInputStream BuffedInputStream DataInputStream 등이 데코레이터들입니다.
