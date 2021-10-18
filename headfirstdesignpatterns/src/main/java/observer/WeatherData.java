@@ -1,30 +1,41 @@
 package observer;
 
-public class WeatherData {
-    public float getTemperature() {
+import java.util.ArrayList;
+import java.util.List;
 
-        return 0f;
+public class WeatherData implements Subject {
+    private final List<Observer> observers;
+    private float temperature;
+    private float humidity;
+    private float pressure;
+
+    public WeatherData() {
+        this.observers = new ArrayList();
     }
-    public float getHumidity() {
 
-        return 0f;
-    }
-    public float getPressure() {
-
-        return 0f;
+    @Override
+    public void registerObserver(Observer o) {
+        observers.add(o);
     }
 
-    /**
-     * 기상 값이 갱신될 때마다 알려주기 위한 메소드
-     * 현재조건, 기상통계, 기상예측
-     */
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observers.stream().forEach(s -> s.update(temperature, humidity, pressure));
+    }
 
     public void measurementsChanged() {
-        float temp = getTemperature();
-        float humidity = getHumidity();
-        float pressure = getPressure();
-        currentConditionDisplay.update(temp, humidity, pressure);
-        statisticsDisplay.update(temp, humidity, pressure);
-        forecastDisplay.update(temp, humidity, pressure);
+        notifyObservers();
+    }
+
+    public void setMeasurements(float temperature, float humidity, float pressure) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        measurementsChanged();
     }
 }
