@@ -203,3 +203,51 @@ public class WeatherData {
 + 커피를 이제는 톨, 그란데 벤티 중에서 골라서 주문할 수 있ㅅ브니다.
 + Beverage 클래스에 사이즈의 get/set을 추가했습니다.
 + 사이즈에 따라서 가격도 다르게 받을 계획입니다.
+
+## 만약에 각음료마다 코스트가 달라야한다면 각 클래별로 금액을 설정하는 것이 맞는가? 
+
+# 3. 팩토리 패턴 
+
+--- 
+> 팩토리 메소드 패턴   
+> 객체를 생성하기 위한 인터페이스를 만듭니다. 
+> 어떤 클래스의 인스턴스를 만들지는 서브클래스에서 결정하도록합니다.
+> 팩토리 메소드를 이용하면 인스터스를 만드는 일을 서브 클래스로 미룰수 있습니다.
+
+## 요구사항
++ 피자는 여러가지의 종류(불고기피자,양파피자)를 가지고 있습니다.
+```java
+public Pizza orderPizza(String type) {
+    private Pizza pizza;
+        if(type.equals) {
+            pizza = new CheesePizza();
+        }else if (type.equals("greek")) {
+            pizza = new GreekPizza();
+        }else if (type.equals("pepperoni")) {
+            pizza = new PepperoniPizza();
+        }
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+    return pizza;
+}
+```
++ 새로운 신제품인 조개피자와 야채피자가 추가되었습니다. 그리고 페퍼로니와 치즈 피자를 제외 시키려고 합니다.
++ 하지만 아래와 같은 방식은 OCP 위배하게 됩니다.
+```java
+public Pizza orderPizza(String type) {
+    private Pizza pizza;
+        if (type.equals("clam")) {
+            pizza = new ClamPizza();
+        }else if (type.equals("veggie")) {
+            pizza = new VeggiePizza();
+        }
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+    return pizza;
+}
+```
++ 이를 통해 우리가 알 수 있는것은 변화는 부분과 변하지 않는 부분을 구분하는 것입니다.
