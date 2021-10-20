@@ -1,12 +1,18 @@
 package factory;
 
 public class VeggiePizza extends Pizza {
+    PizzaIngredientFacotry pizzaIngredientFacotry;
 
-    public VeggiePizza() {
-        name = "VeggiePizza";
-        dough = "얇은";
-        sauce = "토마토";
-        toppings.add("야채");
+    public VeggiePizza(PizzaIngredientFacotry pizzaIngredientFacotry) {
+        this.pizzaIngredientFacotry = pizzaIngredientFacotry;
+    }
+
+    @Override
+    void prepare() {
+        dough = pizzaIngredientFacotry.createDough();
+        sauce = pizzaIngredientFacotry.createSauce();
+        clams = pizzaIngredientFacotry.createClam();
+        veggies = pizzaIngredientFacotry.createVeggies();
     }
 
     @Override

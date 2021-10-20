@@ -6,7 +6,7 @@ public class SimplePizzaFactory {
         if (type.equals("clam")) {
             pizza = new ClamPizza();
         }else if (type.equals("veggie")) {
-            pizza = new VeggiePizza();
+            pizza = new VeggiePizza(new JejudoPizzaIngredientFactory());
         }
         return pizza;
     }

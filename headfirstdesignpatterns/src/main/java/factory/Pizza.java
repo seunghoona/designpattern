@@ -5,17 +5,14 @@ import java.util.List;
 
 public abstract class Pizza {
     protected String name;
-    protected String dough;
-    protected String sauce;
-    List<String> toppings = new ArrayList<>();
+    protected Dough dough;
+    protected Sauce sauce;
+    protected Cheese cheese;
+    Veggies[] veggies;
+    protected Pepperoni pepperoni;
+    protected Clams clams;
 
-    public void prepare() {
-        System.out.println("preparing = " + name);
-        System.out.println("도우굽기");
-        System.out.println("소스");
-        System.out.println("토핑올리기");
-        toppings.stream().forEach(System.out::println);
-    }
+    abstract void prepare();
 
     public void bake() {
         System.out.println("25분동안 굽기");

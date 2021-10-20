@@ -6,7 +6,7 @@ class PizzaStoreTest {
     @Test
     void simpleFactoryTest() {
 
-        PizzaStore pizzaStore = new BuSanPizzaStore();
-        pizzaStore.orderPizza("grape");
+        PizzaStore pizzaStore = new JejudoPizzaStore();
+        pizzaStore.orderPizza("veggie");
     }
 }
