@@ -357,3 +357,157 @@ Pizza 추상화를 바라보게 하는 것입니다.
     + 제품이 생산되는 방법은 이 형식의 서브 클래스에서 정의 된다.
     + 연관이 높은 도메인 정보를 묶을 수있다.
     + 제품을 추가 또는 확대해야하는 경우 인터페이스 변경이 필요하다.
+
+### 실습을 통해 이해한점 
+추상 팩토리로 구현하게 된다면 연관된 정보를 통해 집합을 만들 수 있기에 하나의   
+인터페이스를 통해서 여러개의 클래스를 출력할 수 있다    
+그러나 팩토리 메소드 패턴으로 구현하는 경우 여러개의 팩토리를 생성해야하기에 
+LG와 삼성의 집합으로 보기보단 키보드와 마우스 모니터등으로 각각의 팩토리를 통해 
+여러개의 계열사의 제품들로 집합 할 수 있다.   
+[출처](https://victorydntmd.tistory.com/300?category=719467)
+```java
+public class LGKeyboard implements Keyboard {
+    public LGKeyboard(){
+        System.out.println("LG 키보드 생성");
+    }
+}
+
+public class SamsungKeyboard implements Keyboard {
+    public SamsungKeyboard(){
+        System.out.println("Samsung 키보드 생성");
+    }
+}
+
+public interface Keyboard {
+}
+
+public class KeyboardFactory {
+    public Keyboard createKeyboard(String type){
+        Keyboard keyboard = null;
+        switch (type){
+            case "LG":
+                keyboard = new LGKeyboard();
+                break;
+
+            case "Samsung":
+                keyboard = new SamsungKeyboard();
+                break;
+        }
+
+        return keyboard;
+    }
+}
+
+public class LGMouse implements Mouse {
+    public LGMouse(){
+        System.out.println("LG 마우스 생성");
+    }
+}
+
+public class SamsungMouse implements Mouse {
+    public SamsungMouse(){
+        System.out.println("Samsung 마우스 생성");
+    }
+}
+
+public interface Mouse {
+}
+
+public class MouseFactory {
+    public Mouse createMouse(String type){
+        Mouse mouse = null;
+        switch (type){
+            case "LG":
+                mouse = new LGMouse();
+                break;
+
+            case "Samsung":
+                mouse = new SamsungMouse();
+                break;
+        }
+
+        return mouse;
+    }
+}
+
+public class ComputerFactory {
+    public void createComputer(String type){
+        KeyboardFactory keyboardFactory = new KeyboardFactory();
+        MouseFactory mouseFactory = new MouseFactory();
+        BodyFactory bodyFactory = new BodyFactory();
+        MonitorFactory monitorFactory = new MonitorFactory();
+        SpeakerFactory speakerFactory = new SpeakerFactory();
+        PrinterFactory printerFactory = new PrinterFactory();
+
+        keyboardFactory.createKeyboard(type);
+        mouseFactory.createMouse(type);
+        bodyFactory.createBody(type);
+        monitorFactory.createMonitor(type);
+        speakerFactory.createSpeaker(type);
+        printerFactory.createPrinter(type);
+        System.out.println("--- " + type + " 컴퓨터 완성 ---");
+    }
+}
+
+public class Client {
+    public static void main(String args[]){
+        ComputerFactory computerFactory = new ComputerFactory();
+        computerFactory.createComputer("LG");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Computer monitor = new CompanyFactory();
+        monitor.order("LG");
+    }
+}
+
+public class SamsungComputerFactory implements ComputerFactory {
+    public SamsungKeyboard createKeyboard() {
+        return new SamsungKeyboard();
+    }
+
+    public SamsungMouse createMouse() {
+        return new SamsungMouse();
+    }
+}
+public class LGComputerFactory implements ComputerFactory {
+    public LGKeyboard createKeyboard() {
+        return new LGKeyboard();
+    }
+
+    public LGMouse createMouse() {
+        return new LGMouse();
+    }
+}
+public interface ComputerFactory {
+    public Keyboard createKeyboard();
+    public Mouse createMouse();
+}
+
+public class FactoryOfComputerFactory {
+    public void createComputer(String type){
+        ComputerFactory computerFactory= null;
+        switch (type){
+            case "LG":
+                computerFactory = new LGComputerFactory();
+                break;
+
+            case "Samsung":
+                computerFactory = new SamsungComputerFactory();
+                break;
+        }
+
+        computerFactory.createKeyboard();
+        computerFactory.createMouse();
+    }
+}
+
+public class Client {
+    public static void main(String args[]){
+        FactoryOfComputerFactory factoryOfComputerFactory = new FactoryOfComputerFactory();
+        factoryOfComputerFactory.createComputer("LG");
+    }
+}
+```
