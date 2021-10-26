@@ -623,3 +623,17 @@ action();
     
 
 ```
+
+### 결론적으로
++ command pattern 을 이용하면 요청하는 객체와 그 요청을 수행하는 객체를 분리
++ 분리 시키는 과정의 중심에 Command 객체가 존재한다
++ 이 Command 는 Receiver 를 캡슐화 한다.
++ Invoker 는 Command 를 통해서 execute() 함수를 호출한다.
++ execute() 커맨드는 Command 를 확장하여 작업 취소 기능을 구현할 수 있다.
+
+> 알바생 == 인보커객체    
+> 주방장 == 리시버객체    
+> 주문서 == 커맨드객체   
+> orderUp == execute()   
+> 손님  == 클라이언트 객체   
+> takeOrder() == setCommand()   
