@@ -53,4 +53,20 @@ class SimpleRemoteControlTest {
         remoteControl.offButtonWasPushed(2);
     }
 
+    @Test
+    void macroTest() {
+        // 인보커 역할
+        RemoteControl remoteControl = new RemoteControl();
+        MacroCommand macroCommand = new MacroCommand();
+        macroCommand.add(new LightOnCommand(new Light()));
+        macroCommand.add(new GarageDorrOpenCommand(new GarageDoor()));
+        MacroCommand macroCloseCommand = new MacroCommand();
+        macroCloseCommand.add(new LightOffCommand(new Light()));
+        macroCloseCommand.add(new GarageDorrCloseCommand(new GarageDoor()));
+
+        remoteControl.setCommand(1, macroCommand, macroCloseCommand);
+        remoteControl.onButtonWasPushed(1);
+        remoteControl.offButtonWasPushed(1);
+    }
+
 }
