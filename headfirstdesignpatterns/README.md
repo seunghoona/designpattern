@@ -591,3 +591,35 @@ setCommand();
 
 ## 추가되는 제품 클래스 
 + 차고 문을 열기위한 GarageDorrOpenCommand 클래스를 생성해보자.
+
+
+## 이를 통해 우리가 알 수 있는점들을 살펴보자 
++ 커맨드 객체는 일련의 행동을 특정 리시버하고 연결시킴으로써 요구사항을 캡슐화한 패턴입니다.
++ 행동과 리시버를 한 객체에 집어넣고 excute()라는 메소드 하나만 외부에 공개하는 방법을 씁니다.
++ 이 메소드 호출에 의해서만 리시버에서 일련의 작업이 처리되는 것이죠 
++ 외부에 보았을 때는 어떤 객체가 리시버역할(특정메소드를 호출) 을 하고 있는지 알 수 없습니다.
+
+```java
+// execute 메소드를 호출해서 수행하게 되면 이 메소드에서는 리시버에 특정작업을 처리하라는 지시를 전달합니다. 
+public interface Command {
+    execute();    
+}
+
+// Invoker 란 커맨드 객체에게 특정작업을 수행해달라는 요구를하게 됩니다.
+setCommand()
+
+/**
+  * Reciver 란 요구사항을 수행하기 위해 어떤일을 처리하는 지 알고있는 객체입니다.
+  * ex)GarageDoor.java Light.java  
+  */
+
+action();
+
+
+/**
+  * ConcreateCommand 란 특정행동과 리시버 사이를 연결해주는 객체입니다.
+  * ex)LightOnCommand.java,GarageDoorOpenCommand.java
+  */
+    
+
+```
