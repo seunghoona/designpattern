@@ -1,10 +1,11 @@
 package iterlator;
 
 import iterlator.first.DinerMenuIterator;
+import iterlator.first.Menu;
 
 import java.util.Iterator;
 
-public class DinerMenu {
+public class DinerMenu implements Menu {
     static final int MAX_ITEMS = 6;
     int numberOfItems = 0;
     MenuItem[] menuItems;
