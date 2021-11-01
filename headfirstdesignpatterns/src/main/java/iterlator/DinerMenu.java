@@ -1,7 +1,8 @@
 package iterlator;
 
-import java.util.ArrayList;
-import java.util.List;
+import iterlator.first.DinerMenuIterator;
+
+import java.util.Iterator;
 
 public class DinerMenu {
     static final int MAX_ITEMS = 6;
@@ -17,12 +18,12 @@ public class DinerMenu {
     }
 
     private void addItem(String name, String description, boolean vegetarian, double price) {
-        MenuItem menuItem = new MenuItem(name,description,vegetarian,price);
+        MenuItem menuItem = new MenuItem(name, description, vegetarian, price);
         menuItems[numberOfItems] = menuItem;
         numberOfItems++;
     }
 
-    public MenuItem[] getMenuItems() {
-        return menuItems;
+    public Iterator<MenuItem> createIterator() {
+        return new DinerMenuIterator(menuItems);
     }
 }
