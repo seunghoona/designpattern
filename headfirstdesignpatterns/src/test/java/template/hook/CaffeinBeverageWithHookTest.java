@@ -10,9 +10,12 @@ class CaffeinBeverageWithHookTest {
 
     @Test
     void TemplateHook() {
-        String yes = "yes";
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(yes.getBytes())));
+
+        System.setIn(new ByteArrayInputStream("yes".getBytes()));
         CaffeinBeverageWithHook caffeinBeverageWithHook = new CoffeeWithHook();
+        caffeinBeverageWithHook.prepareRecipe();
+
+        System.setIn(new ByteArrayInputStream("no".getBytes()));
         caffeinBeverageWithHook.prepareRecipe();
     }
 }
