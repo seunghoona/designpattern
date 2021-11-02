@@ -961,3 +961,7 @@ public class MenuItem extends MenuComponet {
 }
 
 ```
+
+## Composite 패턴에서 Iterator 패턴을 사용해봅시다.
+1. `MenuComponent`에 `createIterator()` 를 추가
+2. `Menu` 와 `MenuItem`에 구현해줍시다.

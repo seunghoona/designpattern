@@ -2,6 +2,8 @@ package composite;
 
 import iterlator.first.Menu;
 
+import java.util.Iterator;
+
 public abstract class MenuComponet {
     public void  add(MenuComponet menuComponet) {
         throw new UnsupportedOperationException();
@@ -25,6 +27,9 @@ public abstract class MenuComponet {
         throw new UnsupportedOperationException();
     }
     public void print() {
+        throw new UnsupportedOperationException();
+    }
+    public Iterator<MenuComponet> createIterator(){
         throw new UnsupportedOperationException();
     }
 }

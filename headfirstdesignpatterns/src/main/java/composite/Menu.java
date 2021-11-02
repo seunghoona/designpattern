@@ -8,6 +8,7 @@ public class Menu extends MenuComponet{
     private List<MenuComponet> menuComponetList;
     String name;
     String description;
+    boolean vegetarian;
 
     public Menu(String name, String description) {
         this.name = name;
@@ -41,11 +42,21 @@ public class Menu extends MenuComponet{
     }
 
     @Override
+    public boolean isVegetarian() {
+        return vegetarian;
+    }
+
+    @Override
     public void print() {
         System.out.println(getName());
         System.out.println(getDescription());
         for (MenuComponet menuComponet : menuComponetList) {
             menuComponet.print();
         }
+    }
+
+    @Override
+    public Iterator<MenuComponet> createIterator() {
+        return new CompositeIterator(menuComponetList.iterator());
     }
 }
