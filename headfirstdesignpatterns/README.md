@@ -921,5 +921,43 @@ Composite(Menu)
 
 ## 어떻게 적용해야할까요 ?
 1. 인터페이스를 만드는 것부터 시작
+```java
+
+public abstract class MenuComponet {
+    public void  add(MenuComponet menuComponet) {
+        throw new UnsupportedOperationException();
+    }
+    public void remove(MenuComponet menuComponet) {
+        throw new UnsupportedOperationException();
+    }
+    public void getChild(int i) {
+        throw new UnsupportedOperationException();
+    }
+    public String getName() {
+        throw new UnsupportedOperationException();
+    }
+    public String getDescription() {
+        throw new UnsupportedOperationException();
+    }
+    public double getPrice() {
+        throw new UnsupportedOperationException();
+    }
+    public boolean isVegetarian() {
+        throw new UnsupportedOperationException();
+    }
+    public void print() {
+        throw new UnsupportedOperationException();
+    }
+}
+```
 2. 인터페이스는 메뉴와 메뉴 항목 모두에 적용되는 공통인터페이스 역할 
 3. 인터페이스가 있어야만 그 둘을 똑같은 방법으로 처리할 수 있습니다.
+```java
+public class Menu extends MenuComponet {
+    
+}
+public class MenuItem extends MenuComponet {
+    
+}
+
+```
