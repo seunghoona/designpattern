@@ -995,3 +995,203 @@ public class MenuItem extends MenuComponet {
 ## Composite 패턴에서 Iterator 패턴을 사용해봅시다.
 1. `MenuComponent`에 `createIterator()` 를 추가
 2. `Menu` 와 `MenuItem`에 구현해줍시다.
+
+
+# 스테이트 패턴 
+
+> 내부 상태가 바뀜에 따라 객체의 행동이 바뀔 수 있도록 하는 패턴
+> 마치 객체의 클래스가 바뀌는 것 같은 결과를 얻을 수 있습니다.
+
+1. 내부 상태를 바탕으로 여러가지 서로 다른 행동을 사용할 수 있습니다.'
+   상태를 별도의 클래스로 캡슐화한 다음 현재 상태를 나타내는 객체에게 행동을 위임합니다.
+   내부상태가 바뀜에 따라서 행동이 달라지게 된다느 것을 알 수있습니다.
+   ex) 기계에서 동전이 비어있는경우와 동전이 있는 상태에서의 호출은 각각 다른 메시지를 반환하게 되는 것이죠
+2. 클래스가 변경되는 것같은 결과를 얻는다 
+    클라이언트입장에서 생각해봅시다.   
+    만약 클라이언트에서 사용하는 객체의 `행동이 완전히 달라`질 수 있다면 `마치 그 객체가 다른 클래스로부터 만들어진 객체`처럼 느껴지겠죠? 
+
+
+3.스테이트 패턴과 스트래티지 패턴의 클래스 다이어그램은 똑같지만 그용도는 서로다릅니다.
+
+|스테이트패턴|스트래티지패턴|
+|:---:|:---:|
+|상황에 따라 Context에서 여러 상태 객체 중 하나에 행동 위임 | 일반적으로 클라이언트에서 컨텍스트한테 전략 객체를 결정해줌 |
+|내부 상태가 변경됨에 따라 컨텍스트의 행동도 자연스럽게 바뀜. | 실행 시 전략 객체를 변경할 수 있는 유연성 제공을 위해 사용 |
+|즉 클라이언트는 상태 객체에 대해 몰라도 됨|상속보다 구성을 이용한 유연성 극대화|
+| 수많은 조건문 대신에 사용|
+
+
+![img.png](src/main/resources/statePattern.png)
+1. `Context`
+   + 클래스에는 여러가지 내부상태가 들어갈 수 있습니다. 앞에서 살펴본 예에서는 `GumballMachin`이 `Context`에 해당합니다.
+2. `State`
+   + 모든 구현 클래스에 대한 `공통인터페이스` 모든 상태 클래스에서 같이 인터페이스를 구현하기 때문에바꿔가면서 쓸 수 있죠 
+3. `ConcreteStateA`
+   + context로 전달된 요청을 처리 각 ConcreteState에서 그 요청을 처리하는 방법을 자기 나름의 방식으로 구현하는방법
+
+
+
+## 요구사항
+1. 주식회사 왕뽑기 만들기 
+   1. 사용자는 동전을 기계에 투입
+   2. 동전이 있으면 동전을 반환
+   3. 동전이 존재하지 않으면 동전 투입
+   4. 동전을 넣은 후에는 손잡이를 돌림
+   5. 알맹이 판매 
+   6. 알맹이가 다 떨어지면 알맹이 매진
+   7. 알맹이가 아직 존재한다면 동전없음
+
+## 스테이트패턴에서 말하는 상태란 무엇인가? 
+1. 동전이 있으면 `동전 있음` 
+2. 동전이 없으면 `동전 없음`
+3. 동전이 있으면 손잡이돌림 `알맹이 판매`
+4. 알맹이 재고 있으면 `동전없음`
+5. 알맹이 재고가 없으면 `매진`
+
+## 행동은 무엇일까? 
+1. 손잡이 돌림 
+2. 동전투입
+3. 동전반환
+4. 알맹이 내보냄
+
+## 동전투입에 대한 메소드를 만들어봅시다 .
+```java
+public class GuballMachine {
+    final static int SOLD_OUT = 0;
+    final static int NO_QUARTER = 1;
+    final static int HAS_QUARTER = 2;
+    final static int SOLD = 3;
+    private int count;
+    private int state;
+
+
+    public GuballMachine(int count) {
+        this.count = count;
+        if (count > 0) {
+            state = NO_QUARTER;
+        }
+    }
+
+
+    public void inseruarter() {
+        if (state == HAS_QUARTER) {
+            System.out.println("동전은 한 개만 넣어주세요");
+        } else if (state == NO_QUARTER) {
+            state = HAS_QUARTER;
+            System.out.println("동전을 넣으셨습니다.");
+        } else if (state == SOLD_OUT) {
+            System.out.println("매진되었습니다, 다음기회에 이용해주세요");
+        } else if (state == SOLD) {
+            System.out.println("잠깐만 기다려주세요 알맹이가 나가고 있습니다.");
+        }
+    }
+    // 동전을 반환 받으려고 하는 경우
+    public void ejectQuarter() {
+        if (state == HAS_QUARTER) {
+            System.out.println("동전이 반환됩니다.");
+            state = NO_QUARTER;
+        } else if (state == NO_QUARTER) {
+            System.out.println("동전을 넣어주세요");
+        } else if (state == SOLD) {
+            System.out.println("이미 알맹이를 뽑으셨습니다.");
+        } else if (state == SOLD_OUT) {
+            System.out.println("동전을 넣지 않으셨습니다, 동전이 반환되지 않습니다.");
+        }
+    }
+
+    // 손잡이를 돌리는 경우
+    public void turnCrank() {
+        if (state == SOLD) {
+            System.out.println("손잡이는 한 번만 돌려주세욘");
+        } else if (state == NO_QUARTER) {
+            state = HAS_QUARTER;
+            System.out.println("동전을 넣어주세요");
+        } else if (state == SOLD_OUT) {
+            System.out.println("매진 되었습니다.");
+        } else if (state == HAS_QUARTER) {
+            System.out.println("손잡이를 돌리셨습니다.");
+            state = SOLD;
+            dispense();
+        }
+    }
+
+    public void dispense() {
+        if(state == SOLD) {
+            System.out.println("알맹이가 나가고 있습니다.");
+            count = count - 1;
+            if (count == 0 ) {
+                System.out.println("더 이상 알맹이가 없습니다.");
+            } else {
+                state = NO_QUARTER;
+            }
+        } else if (state == NO_QUARTER) {
+            System.out.println("동전을 넣어주세요");
+        } else if (state == SOLD_OUT) {
+            System.out.println("매진입니다.");
+        } else if (state == HAS_QUARTER) {
+            System.out.println("알맹이가 나갈 수 없습니다.");
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "GuballMachine{" +
+                "count=" + count +
+                ", state=" + state +
+                '}';
+    }
+}
+```
+
+## 요구사항 변경되었습니다.
+1. 뽑기에 게임 기능을 더하면 매출액이 늘어날 것 같ㅅ습니다.
+2. 모든 뽑기 기계에 `도전하세요 10분의 1확률 공짜 알맹이를 받을 수 있습니다`를 붙일 계획입니다.
+
+## 변경이 어려워진 코드 
+1. `당첨` 상태를 추가해야할 것 같습니다. 
+2. 모든 메소드에서 `당첨` 에 관한 메소드를 추가하게됩니다.
+3. `OCP`를 지키고 있지 않습니다.
+4. 바뀌는 부분을 캡슐화하지 않았습니다.
+
+## 스테이트패턴의 등장 
+1. 뽑기 기계와 관련된 모든 행동에 대한 메소드가 들어잇는 State 인터페이스를 정의
+2. 기계의 모든 상태에 대해서 상태 클래스를 구현
+   + 상태에 해당하는 클래스가 모든 작업을 책임
+3. 조건문 코드를 전부 없애고 상태 클래스에 모든 작업을 위임 
+
+
+## 스테이트패턴을 적용함으로써 무엇이 달라졌는가? 
+1. 각 상태의 행동을 별개의 클래스로 캡슐화
+2. 관리하기 힘든 골칫 거리인 if 선언문을 없앴습니다.
+3. 각 상태를 변경에 대해서는 닫혀 있또록 하면서도 `GumballMachine` 자체는 새로운 상태 클래스를 추가하는 확장에 대해서 열려있도로 고쳤습니다. (OCP)
+4. 처음에 주식회사 왕뽑기에서 제시했던 다이어그램에 훨씬 가까운서면서도 이해하기 좋은 코드베이스와 클래스 구조를 생허가게 되었습니다.
+
+## 스테이트패턴을 어떻게 동작하는가? 
+1. 어떤 행동이 호출되면 `GumballMachine.turnCrank()`를 사용시 상태를 관리하는 `State` 인터페이스를 구현 각각의 클래스에 따라 
+2. 상태를 관리하게 됩니다.
+
+
+
+## 궁금하다 !
+
+### Q. 반드시 구상 상태 클래스에서 다음 상태를 결정해야하는 건가요 ?
+1. `Context`에서도 전화을 흐름을 결정할 수 있습니다.
+2. 상태 전환이 고정되어있으면 상태 전환 흐름을 결정하는 코드를 `Context`에 집어 넣어도 됩니다.
+3. 하지만 상태 전환이 동적으로 변경되어야한다면 상태 클래스에서 처리하는 것이 좋다는 것이죠 
+4. 상태 전화 코드를 상태 클래스에 집어 넣으면 상태 클래스들 사이에 의존성이 생긴다는 단점이 있습니다.
+5. 상태 전환의 흐름을 결정하는 코드를 어느쪽에 집어 넣는지에 따라서 OCP가 결정됩니다.
+
+### Q. 여러 Context에서 상태 객체를 공유 할 수 있나요 ? 
+1. 상태를 공유할 때는 일반적으로 각 상태를 정적 인스턴스 변수에 할당하는 방법을 사용합니다.
+2. 상태 객체에서 Context에 있는 메소드 또는 인스턴스 변수를 활용해야한다면 각 handle() 메소드에 Context
+3. 객체에 대한 레퍼런스도 전달해야합니다.
+
+### Q. 스테이트패턴을 사용하면 디자인에 필요한 클래스의 개수가 늘어나나요 ? 
+1. 유연성을 향상시키기 위해 지용해야할 비용이라고 생각하면됩니다.
+2. 한번만 쓰고 버릴 클래스가 아니라면 유연한 디자인 설계하는 것이 좋겠지요
+
+### Q. 인터페이스를 사용했는데 추상클래스를 사용해도 좋지 않을까요 ? 
+1. 추상클래스를 사용해도 좋습니다.
+2. 추상 클래스를 사용하면 나중에 구상상태를 클래스 코드를 건드리지 않고도 추상 클래스에 메소드를 추가할 수 있다는
+3. 장점이있습니다.
