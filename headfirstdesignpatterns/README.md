@@ -16,6 +16,8 @@
 |스트래티지패턴|알고리즘 캡슐화|나중에 변경할 떄도 코드에 미치는 영향을 최소화 해야할 떄 요구사항이 수시로 변경되는 경우|
 |옵저버패턴|객체간의 연락|어떤 객체의 상태가 바뀌거나 중요한 메소드가 호출 되었을 때 이와 관련된 객체들에게 소식을 전달할 수 있는 패턴이다.|
 |데코레이터패턴|상속을 하지않고 확장| 상속을 통해 기능을 확장해야하는 경우가 있을 때 고려해볼 만하다.|
+|추상 팩토리 패턴|제품군을 생성하기 위한 인터페이스를 생성 그 인터페이스를 구성하여 사용할수 있게끔 하는것|의존성역전의 원칙|
+|추상 메소드 패턴|하나의 추상클래스에서 추상 메소드를 만들고 서브클래스들이 추상메소드를 구현하여 인스턴스를 만들게끔 하는것.|
 
 
 
@@ -317,9 +319,11 @@ public abstract class CondimentDecorator extends Beverage {
 
 --- 
 > 팩토리 메소드 패턴   
-> 객체를 생성하기 위한 인터페이스를 만듭니다. 
-> 어떤 클래스의 인스턴스를 만들지는 서브클래스에서 결정하도록합니다.
+> 객체를 `생성하기 위한 인터페이스`를 만듭니다. 
+> 어떤 클래스의 인스턴스를 만들지는 `서브클래스에서 결정`하도록합니다.
 > 팩토리 메소드를 이용하면 인스터스를 만드는 일을 서브 클래스로 미룰수 있습니다.
+
+![img.png](src/main/resources/factoryclassdiagram.png)
 
 ## 요구사항
 + 피자는 여러가지의 종류(불고기피자,양파피자)를 가지고 있습니다.
@@ -358,14 +362,68 @@ public Pizza orderPizza(String type) {
 }
 ```
 + 이를 통해 우리가 알 수 있는것은 변화는 부분과 변하지 않는 부분을 구분하는 것입니다.
++ 피자의 종류는 계속 변경될 수 있기 때문에 추상 클래스로 `PizzaStore`를 생성한 후 그것을 구현한 각자의 클래스를 만들면됩니다.
+
+```java
+public class SimplePizzaFactory {
+	public Pizza createPizza(String type) { // 이런 경우에는 static메소드로 선언하는 경우가 종종 있음.
+		Pizza pizza = null;
+		if (pizza.equals("cheese"))
+			pizza = new CheesePizza();
+		if (pizza.equals("pepper"))
+			pizza = new PepperoniPizza();
+		if (pizza.equals("clam"))
+			pizza = new ClamPizza();
+		if (pizza.equals("veggie"))
+			pizza = new VeggiePizza();
+		return pizza;
+	}
+}
+```
 
 ## 추가된 요구사항
-+ 분점을 만들려고 합니다. 
-+ 다른 지역마다 특성과 입맛을 반영하여 다른 스타일의 피자 를 만들어야합니다.
++ 장사가 잘되게된 피자가게는 조금 더 확장한 피자가게를 만들려고합니다. 
++ `다른 지역마다 특성`과 `입맛을 반영하여 다른 스타일의 피자` 를 만들어야합니다.
 
 ### 해결방법
-SimplePizzaFactory를 빼고 세가지 서로 다른 팩토리를 만든다음 
+SimplePizzaFactory를 빼고 세가지 서로 다른 팩토리를 만든다음
 PizzaStore에서 적당한 팩토리르 사용하도록하면 다양한 피자를 더욱 추가할 수 있을 겁니다.
+
+![img.png](src/main/resources/factory.png)
+```java
+public class NYPizzaStore extends PizzaStore {
+
+	@Override
+	public Pizza createPizza(String type) {
+		Pizza pizza = null;
+		if (type.equals("cheese"))
+			pizza = new NYStyleCheesePizza();
+		if (type.equals("peper"))
+			pizza = new NYStylePepperoniPizza();
+		if (type.equals("clam"))
+			pizza = new NYStyleClamPizza();
+		if (type.equals("veggie"))
+			pizza = new NYStyleVeggiePizza();
+		return pizza;
+	}
+}
+
+public class ChicagoPizzaStore extends PizzaStore {
+    @Override
+    public Pizza createPizza(String type) {
+        Pizza pizza = null;
+        if (type.equals("cheese"))
+            pizza = new ChicagoStyleCheesePizza();
+        if (type.equals("peper"))
+            pizza = new ChicagoStylePepperoniPizza();
+        if (type.equals("clam"))
+            pizza = new ChicagoStyleClamPizza();
+        if (type.equals("veggie"))
+            pizza = new ChicagoStyleVeggiePizza();
+        return pizza;
+    }
+}
+```
 
 ## 더욱 추가된 요구사항
 + 분점에서 우리가 만든 팩토리를 써서 피자를 만들긴 하는데 독자적인 방법들을 사용하기 시작했습니다.
@@ -391,6 +449,9 @@ createPizza를 구현하게 할 것입니다.
 + 객체 생성 코드를 전부 한 객체 또는 메소드에 집어 넣으면 코드에서 중복되는 내용을 제거할 수 있다.
 + 관리도 한 곳만 신경쓸수 있다.
 + 유연하고 확장성 높게 만들 수 있다.
+
+![img.png](src/main/resources/factor2.png)
+
 
 ## DIP의 등장 
 > 추상화 된것에 의존하게 만들어라   
@@ -424,23 +485,22 @@ public class PizzaStore {
 }
 ```
 ### 뒤집어서 생각해보자 
-+ PizzaStore를 구현해야한다면 제일먼저 무엇을 해야할까? 
++ `PizzaStore`를 구현해야한다면 제일먼저 무엇을 해야할까? 
 + 피자가게(고수준)이 저수준(피자)를 알고 있으면 영향을 끼칠 수있다. 
-+ 이런 경우 피자를 추상화할 개념을 생각하고 Pizza를 추상화 시켜서 PizzaStore와 Pizza(저수준) 구상객체를    
++ 이런 경우 피자를 추상화할 개념을 생각하고 `Pizza`를 추상화 시켜서 `PizzaStore`와 `Pizza(저수준)` 구상객체를    
 Pizza 추상화를 바라보게 하는 것입니다.
 
 
 ### 원칙을 지키고 싶다면 어떻게 하면 좋을까요? 
-+ 어떤 변수에도 구상(구현) 클래스에 대한 레퍼런스를 저장하지 맙시다.
-  + new 연산자를 사용하면 구상 클래스에 대한 레퍼런스를 사용하게 되는 것이다.
-  + 팩토리를 써서 구상 클래스에 대한 레퍼런스를 변수에 저장하는 일을 미리 방지합시다.
-+ 구상 클래스에서 유도된 클래스를 만들지 맙시다.
+1. new 연산자를 사용하면 구상 클래스에 대한 레퍼런스를 사용하게 되는 것이다.
+   + `팩토리를 써서 구상 클래스에 대한 레퍼런스를 변수`에 저장하는 일을 미리 방지합시다.
+2. 구상 클래스에서 유도된 클래스를 만들지 맙시다.
   + 구상 클래스에서 유도된 클래스를 만들면 특정 구상 클래스에 의존하게 됩니다.
   + 인터페이스나 추상화된 클래스로 만들어야합니다.
-+ 베이스 클래스에 이미 구현되어 있던 메소드를 오버라이드 하지 맙시다.
-  + 이미 구현되어 있는 메소드를 오버라이드 한다는 것은 애초부터 베이스 클래스가 제대로 
-  추상화 된 것이 아니었다고 볼 수 있다.   
-  베이스클래스에서 메소드를 정의 할 때 모든 서브클래스에서 공유 할수 있는 것만 정의해야합니다.
+3. `베이스 클래스에 이미 구현되어 있던 메소드를 오버라이드 하지 맙시다.`
+    + 이미 구현되어 있는 메소드를 오버라이드 한다는 것은 애초부터 베이스 클래스가 제대로 
+      추상화 된 것이 아니었다고 볼 수 있다.   
+      베이스클래스에서 메소드를 정의 할 때 모든 서브클래스에서 공유 할수 있는 것만 정의해야합니다.
 
 ### 더욱x2 추가된 요구사항
 + 자잘 한 재료를 더 싼 재료로 바꿔서 원가를 줄이고 마진을 올리려고 하는 문제가 발생했습니다.
@@ -449,7 +509,21 @@ Pizza 추상화를 바라보게 하는 것입니다.
 
 # 3.1 추상 팩토리 패턴 정의
 > 추상 팩토리 패턴에서는 인터페이스를 이용하여 서로 연관된 또는 의존하는 객체를 구상 클래스를 지정하지 않고도 생성할 수있습니다.
-> 
+![img.png](src/main/resources/abstractfactory.png)
+
+`AbstractFactory`는 모든 구현 팩토리에서 구현해야하는 인터페이스 입니다.
+ 제품을 생산 하기 위한 메소드들이 정의되어있습니다.
+`ConcreteFactory`는 구현 팩토리에서는 서로 다른 제품을 생산합니다.    
+클라이언트에서 제품이 필요하면 이 팩토리 가운데 적당한걸 골라서 사용하면됩니다.
+`AbstractProductA` 는 제품군 각 구현 팩토리에서 필요한 `제품`을 모두 만들 수 있습니다.
+
+
+1. 클라이언트에서 추상 인터페이스를 통해서 일련의 제품들을 공급받을 수있다.
+2. 실제로 어떤 제품이 생산되는지 알 필요가 없습니다.
+3. 따라서 클라이언트와 팩토리에서 생산되는 제품을 분리시킬 수 있습니다.
+
+![img.png](src/main/resources/abstract.png)
+
 ### 추상 팩토리 와 팩토메소드 패턴의 차이점은 무엇인가요? 
 + 팩토리 메소드 패턴 
   + 클라이언트 코드와 인스턴스를 만들어야 할구 상 클래스를 분리시켜야할 때
@@ -1287,5 +1361,5 @@ public class GuballMachine {
 옵저버 패턴 : 상태가 변경되면 다른 객체들한테 연락을 돌릴 수 있습니다.
 템플릿 메소드 패턴 : 알고리즘의 개별 단계를 구현하는 방법을 제공 
 컴포지트 패턴:클라이언트에서 객체 컬렉션과 개별 객체를 똑같이 다를 수 있도록 해줍니다.
-추상팩토리패턴 : 클라이언트에서 구상 클래스를 지정하지 않으면서도 일군의 객체를 생성할 수 있또록 해줍니다.
+추상팩토리패턴 : 클라이언트에서 구상 클래스를 지정하지 않으면서도 일군의 객체를 생성할 수 있도록 해줍니다.
 커맨드 패턴: 요청을 객체로 감쌉니다.
