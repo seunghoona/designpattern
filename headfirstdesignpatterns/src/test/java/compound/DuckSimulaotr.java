@@ -5,10 +5,14 @@ import org.junit.jupiter.api.Test;
 class DuckSimulaotr {
     @Test
     void duck() {
-        Quackable mallardDuck = new QuackCounter(new MallardDuck());
-        Quackable redheadDuck = new QuackCounter(new RedheadDuck());
-        Quackable rubberDuck = new QuackCounter(new RubberDuck());
-        Quackable duckCall = new QuackCounter(new DuckCall());
+
+        AbstractDuckFactory duckFactory = new CountingDuckFactory();
+
+
+        Quackable mallardDuck = duckFactory.createMallardDuck();
+        Quackable redheadDuck = duckFactory.createRedHeadDuck();
+        Quackable rubberDuck = duckFactory.createRubberDuck();
+        Quackable duckCall = duckFactory.createDuckCall();
         Quackable goose = new QuackCounter(new DuckGooseAdapter(new Goose()));
 
         simulate(mallardDuck);
