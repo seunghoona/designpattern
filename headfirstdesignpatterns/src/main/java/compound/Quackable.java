@@ -1,5 +1,7 @@
 package compound;
 
-public interface Quackable {
+import java.util.Observable;
+
+public interface Quackable extends QuackObservable {
     public void quack();
 }
