@@ -1254,4 +1254,3 @@ public class GuballMachine {
 2. `Proxy클래스`는 자바에 의해 생성되며 `Subject 인터페이스` 전체를 구현한다.
 3. `InvocationHandler` 클래스는 `Proxy` 객체에 대한 모든 메소드 호출을 전달받는 `InvocationHandler`를 제공해야한다.
 4. `InvocationHandler`에서 `RealSubject` 객체에 있는 메소드에 대한 접근을 제어한다.
-
